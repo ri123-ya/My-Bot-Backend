@@ -19,14 +19,7 @@ const corsOptions = {
 // Apply the middleware globally
 app.use(cors(corsOptions));
 
-// 2. CRITICAL FIX: The Catch-All OPTIONS Handler
-// When preflightContinue is true, we must manually terminate the OPTIONS request.
-// This route is a direct replacement for the faulty app.options("*", ...) line.
-app.options('*', (req, res) => {
-    // The cors middleware has already attached the necessary headers.
-    // We just need to send the successful status code.
-    res.sendStatus(204); 
-});
+
 app.use(express.json());
 app.use("/api", chatRoute);
 
