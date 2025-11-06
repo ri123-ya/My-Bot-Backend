@@ -5,17 +5,22 @@ import cors from "cors";
 
 const app = express();
 dotenv.config();
+// 1. Define the complete CORS options in one object
+const corsOptions = {
+    origin: process.env.FRONTEND_URL, 
+    credentials: true,
+    // CRITICAL: Explicitly list the headers the browser is complaining about
+    allowedHeaders: ['Content-Type', 'Authorization'], 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Removed OPTIONS from here
+    optionsSuccessStatus: 204
+};
 
-// FIXED CORS Configuration
-app.use(cors({
-   origin: process.env.FRONTEND_URL,
-   credentials: true,
-   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  //  allowedHeaders: ['Content-Type', 'Authorization'],
-  //  preflightContinue: false,
-  //  optionsSuccessStatus: 204
-}));
+// Apply the middleware globally to all routes
+app.use(cors(corsOptions));
 
+// 2. CRITICAL FIX: Explicitly handle the OPTIONS preflight request for the /api path.
+// The /* ensures it covers all sub-routes like /api/chat.
+app.options("/api/*", cors(corsOptions));
 app.use(express.json());
 app.use("/api", chatRoute);
 
