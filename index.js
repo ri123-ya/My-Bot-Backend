@@ -15,12 +15,12 @@ const corsOptions = {
     optionsSuccessStatus: 204
 };
 
-// Apply the middleware globally to all routes
+// Apply the middleware globally to all routes (GET, POST, etc.)
 app.use(cors(corsOptions));
 
-// 2. CRITICAL FIX: Explicitly handle the OPTIONS preflight request for the /api path.
-// The /* ensures it covers all sub-routes like /api/chat.
-app.options("/api/*", cors(corsOptions));
+// 2. CRITICAL FIX: Use the simple wildcard '*' for the OPTIONS handler.
+// This handles all incoming preflight requests without crashing.
+app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use("/api", chatRoute);
 
