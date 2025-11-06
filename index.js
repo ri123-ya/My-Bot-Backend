@@ -6,12 +6,18 @@ import cors from "cors";
 const app = express();
 dotenv.config();
 
+// ✅ FIXED CORS Configuration
 app.use(cors({
-   origin: process.env.FRONTEND_URL,
+   origin: process.env.FRONTEND_URL || 'https://riya-my-bot.netlify.app',
    credentials: true,
    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-   allowedHeaders: ['Content-Type', 'Authorization']
+   allowedHeaders: ['Content-Type', 'Authorization', 'content-type'], // Added lowercase
+   preflightContinue: false,
+   optionsSuccessStatus: 204
 }));
+
+// ✅ Handle OPTIONS requests explicitly (before other routes)
+app.options('*', cors());
 
 app.use(express.json());
 app.use("/api", chatRoute);
