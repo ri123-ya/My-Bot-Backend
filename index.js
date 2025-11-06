@@ -6,7 +6,7 @@ import cors from "cors";
 const app = express();
 dotenv.config();
 
-// ✅ FIXED CORS Configuration
+// FIXED CORS Configuration
 app.use(cors({
    origin: process.env.FRONTEND_URL,
    credentials: true,
@@ -15,9 +15,6 @@ app.use(cors({
    preflightContinue: false,
    optionsSuccessStatus: 204
 }));
-
-// ✅ Handle OPTIONS requests explicitly (before other routes)
-app.options('/*', cors());
 
 app.use(express.json());
 app.use("/api", chatRoute);
