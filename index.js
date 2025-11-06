@@ -5,22 +5,28 @@ import cors from "cors";
 
 const app = express();
 dotenv.config();
-// 1. Define the complete CORS options in one object
+// 1. Define the complete CORS options
 const corsOptions = {
     origin: process.env.FRONTEND_URL, 
     credentials: true,
-    // CRITICAL: Explicitly list the headers the browser is complaining about
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Removed OPTIONS from here
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    // This allows the OPTIONS request to continue to the next middleware/handler
+    preflightContinue: true, // <-- CRITICAL CHANGE
     optionsSuccessStatus: 204
 };
 
-// Apply the middleware globally to all routes (GET, POST, etc.)
+// Apply the middleware globally
 app.use(cors(corsOptions));
 
-// 2. CRITICAL FIX: Use the simple wildcard '*' for the OPTIONS handler.
-// This handles all incoming preflight requests without crashing.
-app.options("*", cors(corsOptions));
+// 2. CRITICAL FIX: The Catch-All OPTIONS Handler
+// When preflightContinue is true, we must manually terminate the OPTIONS request.
+// This route is a direct replacement for the faulty app.options("*", ...) line.
+app.options('*', (req, res) => {
+    // The cors middleware has already attached the necessary headers.
+    // We just need to send the successful status code.
+    res.sendStatus(204); 
+});
 app.use(express.json());
 app.use("/api", chatRoute);
 
