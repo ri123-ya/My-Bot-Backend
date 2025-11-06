@@ -11,13 +11,13 @@ app.use(cors({
    origin: process.env.FRONTEND_URL,
    credentials: true,
    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-   allowedHeaders: ['Content-Type', 'Authorization', 'content-type'], // Added lowercase
+   allowedHeaders: ['Content-Type', 'Authorization'],
    preflightContinue: false,
    optionsSuccessStatus: 204
 }));
 
 // ✅ Handle OPTIONS requests explicitly (before other routes)
-app.options('*', cors());
+app.options('/*', cors());
 
 app.use(express.json());
 app.use("/api", chatRoute);
