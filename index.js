@@ -8,7 +8,7 @@ dotenv.config();
 
 // ✅ FIXED CORS Configuration
 app.use(cors({
-   origin: process.env.FRONTEND_URL || 'https://riya-my-bot.netlify.app',
+   origin: process.env.FRONTEND_URL,
    credentials: true,
    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
    allowedHeaders: ['Content-Type', 'Authorization', 'content-type'], // Added lowercase
@@ -22,9 +22,9 @@ app.options('*', cors());
 app.use(express.json());
 app.use("/api", chatRoute);
 
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
+app.get("/", (req, res) => {
+  res.send("server is running");
+});
 
 
 app.listen(process.env.PORT, () => {
