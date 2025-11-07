@@ -7,10 +7,10 @@ const app = express();
 dotenv.config();
 // FIXED CORS - THIS IS THE ONLY CORRECT WAY
 app.use(cors({
-  origin: ["https://celadon-dieffenbachia-f0ea31.netlify.app", "http://localhost:3000"], // your Netlify URL
+  origin: [process.env.FRONTEND_URL], 
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization", "Accept"], // THIS LINE WAS MISSING!
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"], 
 }));
 
 // This is CRITICAL - add this middleware
