@@ -5,20 +5,19 @@ import cors from "cors";
 
 const app = express();
 dotenv.config();
-// 1. Define the complete CORS options
-const corsOptions = {
-    origin: process.env.FRONTEND_URL, 
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    // This allows the OPTIONS request to continue to the next middleware/handler
-    preflightContinue: true, // <-- CRITICAL CHANGE
-    optionsSuccessStatus: 204
-};
+// FIXED CORS - THIS IS THE ONLY CORRECT WAY
+app.use(cors({
+  origin: ["https://celadon-dieffenbachia-f0ea31.netlify.app", "http://localhost:3000"], // your Netlify URL
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"], // THIS LINE WAS MISSING!
+}));
 
-// Apply the middleware globally
-app.use(cors(corsOptions));
-
+// This is CRITICAL - add this middleware
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
 app.use(express.json());
 app.use("/api", chatRoute);
