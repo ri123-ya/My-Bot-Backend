@@ -19,6 +19,8 @@ app.use(cors({
 //   next();
 // });
 
+app.options("*", cors());
+
 app.use(express.json());
 app.use("/api", chatRoute);
 
