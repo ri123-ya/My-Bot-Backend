@@ -14,10 +14,10 @@ app.use(cors({
 }));
 
 // This is CRITICAL - add this middleware
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 
 app.use(express.json());
 app.use("/api", chatRoute);
