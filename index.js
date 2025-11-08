@@ -7,17 +7,17 @@ const app = express();
 dotenv.config();
 // FIXED CORS - THIS IS THE ONLY CORRECT WAY
 app.use(cors({
-  origin: process.env.FRONTEND_URL, 
+  origin: "https://moonlit-centaur-b4df08.netlify.app", 
   // credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Accept"], 
 }));
 
 // This is CRITICAL - add this middleware
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   next();
-// });
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Headers", "true");
+  next();
+});
 
 app.use(express.json());
 app.use("/api", chatRoute);
