@@ -15,7 +15,7 @@ app.use(cors({
 
 // This is CRITICAL - add this middleware
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Headers", "true");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 
