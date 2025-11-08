@@ -7,8 +7,8 @@ const app = express();
 dotenv.config();
 // FIXED CORS - THIS IS THE ONLY CORRECT WAY
 app.use(cors({
-  origin: [process.env.FRONTEND_URL], 
-  credentials: true,
+  origin: process.env.FRONTEND_URL, 
+  // credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization", "Accept"], 
 }));
