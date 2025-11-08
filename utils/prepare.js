@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const filePath = "./data/Resume.pdf";
+// const filePath = "./data/Resume.pdf";
 
 export async function indexTheDocument(filePath) {
   //Load the Pdf
