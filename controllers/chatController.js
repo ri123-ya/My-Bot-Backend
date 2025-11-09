@@ -4,7 +4,7 @@ import { classifyQuery } from "../services/routerService.js";
 
 export async function handleChat(req, res) {
   try {
-    const { message, threadId } = req.body;
+    const { message, threadId , route: routeFromFrontend } = req.body;
     if (!message) {
       return res.status(400).json({ error: "message is required" });
     }
@@ -13,8 +13,9 @@ export async function handleChat(req, res) {
     }
 
     // classify the user query  as RAG or DIRECT 
-    const classification = await classifyQuery(message);
-
+    // const classification = await classifyQuery(message);
+    const classification = routeFromFrontend;
+    
     let context = "";
     let chunks = [];
 
@@ -59,5 +60,22 @@ export async function handleChat(req, res) {
       usedRetrieval: false,
       routeDecision: null,
     });
+  }
+}
+
+export async function handleClassify(req, res) {
+  try {
+    const { message, threadId } = req.body;
+    if (!message) {
+      return res.status(400).json({ error: "message is required" });
+    }
+    if (!threadId) {
+      return res.status(400).json({ error: "threadId is required" });
+    }
+     const route = await classifyQuery(message);
+     res.json({route});
+  } catch (error) {
+     console.error("Error in classification : ", error);
+     res.status(500).json({ error : "Internal server error during classification"});
   }
 }
