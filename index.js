@@ -7,7 +7,7 @@ const app = express();
 dotenv.config();
 // FIXED CORS - THIS IS THE ONLY CORRECT WAY
 app.use(cors({
-  origin: "https://moonlit-centaur-b4df08.netlify.app", 
+  origin: "https://riya-my-bot.netlify.app", 
   // credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Accept"], 
