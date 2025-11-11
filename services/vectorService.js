@@ -28,7 +28,7 @@ export async function initVectorStore() {
  * Search top K similar chunks for a query
  * returns array of documents (with pageContent)
  */
-export async function similaritySearch(query, k = 5) {
+export async function similaritySearch(query, k = 3) {
   const store = await initVectorStore();
   const results = await store.similaritySearch(query, k);
   return results;
